@@ -4,7 +4,6 @@
 APIs that take in a GitHub username and analyses the user's profile.
 
 ## Features
-- User authentication (JWT)
 - CRUD operations
 - Analysis logic
 - Clean error handling
