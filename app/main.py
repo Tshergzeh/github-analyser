@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, status
 import requests
 
 from app.config import settings
-from app.utils import get_stars
+from app.utils import get_languages, get_stars
 
 app = FastAPI()
 
@@ -31,6 +31,7 @@ def analyse_profile(username: str, page: int = 1):
         {
             'repository_name': repo['name'],
             'stars': get_stars(username, repo['name']),
+            'languages': get_languages(username, repo['name']),
             'forks': repo['forks']
         }
         for repo in repos.json()
