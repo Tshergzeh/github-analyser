@@ -12,8 +12,8 @@ headers = {
     'X-GitHub-Api-Version': '2022-11-28'
 }
 
-def make_cache_key(username: str, page: int):
-    raw_key = f"username:{username};page:{page}"
+def make_cache_key(username: str, page: int, per_page: int):
+    raw_key = f"username:{username};page:{page};per_page:{per_page}"
     return hashlib.md5(raw_key.encode()).hexdigest()
 
 def get_stars(owner: str, repo: str):

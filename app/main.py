@@ -25,8 +25,8 @@ redis_client = redis.Redis(
 )
 
 @app.get("/api/repos/{username}/")
-def analyse_profile(username: str, page: int = 1):
-    cache_key = make_cache_key(username, page)
+def analyse_profile(username: str, page: int = 1, per_page: int = 30):
+    cache_key = make_cache_key(username, page, per_page)
     cached_repos = redis_client.get(cache_key)
     if cached_repos:
         return {"success": True, "repositories": json.loads(cached_repos)} # type: ignore
@@ -37,7 +37,7 @@ def analyse_profile(username: str, page: int = 1):
         'Authorization': f"Bearer {PERSONAL_ACCESS_TOKEN}",
         'X-GitHub-Api-Version': '2022-11-28'
     }
-    params = {'page': page}
+    params = {'page': page, 'per_page': per_page}
     repos = requests.get(url, params=params, headers=headers)
     
     if repos.status_code == 404:
