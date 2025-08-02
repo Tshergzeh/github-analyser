@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, status
 import requests
 
 from app.config import settings
-from app.utils import get_languages, get_stars
+from app.utils import get_languages, get_stars, get_activity_score
 
 app = FastAPI()
 
@@ -26,13 +26,14 @@ def analyse_profile(username: str, page: int = 1):
             status.HTTP_503_SERVICE_UNAVAILABLE, 
             "GitHub API error"
         )
-    
+
     repos_response = [
         {
             'repository_name': repo['name'],
             'stars': get_stars(username, repo['name']),
+            'forks': repo['forks'],
             'languages': get_languages(username, repo['name']),
-            'forks': repo['forks']
+            'activity_score': get_activity_score(username, repo['name'])
         }
         for repo in repos.json()
     ]
