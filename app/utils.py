@@ -1,3 +1,5 @@
+import hashlib
+
 import requests
 
 from app.config import settings
@@ -9,6 +11,10 @@ headers = {
     'Authorization': f"Bearer {PERSONAL_ACCESS_TOKEN}",
     'X-GitHub-Api-Version': '2022-11-28'
 }
+
+def make_cache_key(username: str, page: int):
+    raw_key = f"username:{username};page:{page}"
+    return hashlib.md5(raw_key.encode()).hexdigest()
 
 def get_stars(owner: str, repo: str):
     stars = requests.get(
